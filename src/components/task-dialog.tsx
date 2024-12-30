@@ -29,7 +29,7 @@ import { Input } from "./ui/input";
 
 interface Props {
   open: boolean;
-  task: Task; // Ya no es null porque solo es para editar
+  task: Task;
   setOpen: (open: boolean) => void;
 }
 

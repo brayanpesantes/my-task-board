@@ -15,7 +15,7 @@ interface Props {
 
 export const TaskList = ({ tasks, boardId }: Props) => {
   const [open, setOpen] = React.useState(false);
-  const [selectedTask, setSelectedTask] = React.useState<Task | null>(null);
+  const [selectedTask, setSelectedTask] = React.useState<Task>({} as Task);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleTaskClick = (task: Task) => {
@@ -29,6 +29,8 @@ export const TaskList = ({ tasks, boardId }: Props) => {
       await addTask(boardId);
       toast.success("Task added successfully");
     } catch (error) {
+      console.log(error);
+
       toast.error("Failed to add task");
     } finally {
       setIsLoading(false);
