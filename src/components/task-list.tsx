@@ -30,7 +30,6 @@ export const TaskList = ({ tasks, boardId }: Props) => {
       toast.success("Task added successfully");
     } catch (error) {
       console.log(error);
-
       toast.error("Failed to add task");
     } finally {
       setIsLoading(false);
