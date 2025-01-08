@@ -8,7 +8,7 @@ interface Props {
 }
 export const Board = ({ initialBoard }: Props) => {
   return (
-    <div className="container mx-auto max-w-xl py-12">
+    <div className="container mx-auto max-w-[552px] max-h-dvh flex flex-col py-12  px-4 md:px-0">
       <HeaderBoard board={initialBoard} />
       <TaskList tasks={initialBoard.tasks} boardId={initialBoard.id} />
     </div>
