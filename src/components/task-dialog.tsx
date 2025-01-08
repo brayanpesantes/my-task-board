@@ -20,12 +20,13 @@ import { useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
-import { ICONS, STATUS_ICONS } from "@/lib/utils";
+import { cn, ICONS, STATUS_ICONS } from "@/lib/utils";
 import { deleteTask, updateTask } from "@/actions/task";
 import { toast } from "sonner";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
+import { Check } from "lucide-react";
 
 interface Props {
   open: boolean;
@@ -78,7 +79,7 @@ export const TaskDialog = ({ open, setOpen, task }: Props) => {
   const handleDelete = async () => {
     try {
       await deleteTask(task.id);
-      toast.success("Tarea eliminada exitosamente");
+      toast.success("Tarea eliminada exitosamente", { description: task.name });
       setOpen(false);
     } catch (error) {
       console.log(error);
@@ -106,7 +107,11 @@ export const TaskDialog = ({ open, setOpen, task }: Props) => {
                   <FormItem>
                     <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nombre de la tarea" {...field} />
+                      <Input
+                        placeholder="Nombre de la tarea"
+                        {...field}
+                        className="focus-visible:ring-blue-500 "
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -122,7 +127,7 @@ export const TaskDialog = ({ open, setOpen, task }: Props) => {
                       <Textarea
                         {...field}
                         placeholder="Descripción de la tarea..."
-                        className="resize-none min-h-[100px]"
+                        className="resize-none min-h-[100px] focus-visible:ring-blue-500 "
                         maxLength={500}
                         rows={4}
                       />
@@ -148,9 +153,9 @@ export const TaskDialog = ({ open, setOpen, task }: Props) => {
                           <ToggleGroupItem
                             key={icon}
                             value={icon}
-                            className="flex items-center justify-center"
+                            className="flex items-center justify-center hover:bg-yellow-500  data-[state=on]:bg-yellow-500 bg-gray-300"
                           >
-                            <div className="p-3 size-5">{icon}</div>
+                            <span className="size-5">{icon}</span>
                           </ToggleGroupItem>
                         ))}
                       </ToggleGroup>
@@ -168,7 +173,7 @@ export const TaskDialog = ({ open, setOpen, task }: Props) => {
                     <FormControl>
                       <ToggleGroup
                         type="single"
-                        className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-2"
                         variant="outline"
                         onValueChange={field.onChange}
                         value={field.value}
@@ -177,7 +182,8 @@ export const TaskDialog = ({ open, setOpen, task }: Props) => {
                           <ToggleGroupItem
                             key={status}
                             value={status}
-                            className="flex items-center justify-start gap-3 py-[2px]"
+                            variant={"outline"}
+                            className="flex items-center justify-start gap-1 py-[2px] border-2 hover:border-blue-500 data-[state=on]:border-blue-500"
                           >
                             <span className="p-3">
                               {
@@ -187,6 +193,20 @@ export const TaskDialog = ({ open, setOpen, task }: Props) => {
                               }
                             </span>
                             {status}
+                            <span
+                              className={cn([
+                                "ml-auto size-5 text-white bg-blue-500 opacity-0 rounded-full flex items-center justify-center",
+                                {
+                                  "opacity-100": field.value === status,
+                                },
+                              ])}
+                            >
+                              <Check
+                                className="size-3"
+                                aria-hidden="true"
+                                size={16}
+                              />
+                            </span>
                           </ToggleGroupItem>
                         ))}
                       </ToggleGroup>
